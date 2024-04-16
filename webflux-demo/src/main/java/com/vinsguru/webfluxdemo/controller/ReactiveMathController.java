@@ -24,11 +24,22 @@ public class ReactiveMathController {
                         .defaultIfEmpty(new Response(-1));
     }
 
+    /*
+    Altough this endpoint is returning Flux, but to UI it will be returned as JSON, 
+    So unless the user recieves entire response it can't do anything.
+    If we stop the request in browser we will see no logs in Serevr, that is the process will stop
+    So the browser is subscribing to it, once it subscribtions ends the process on backedn ends
+    In some browsers it will continoiusly give data, but its still part of a JSON can't do anything 
+    untill entire JSOM is recieved
+    */
     @GetMapping("table/{input}")
     public Flux<Response> multiplicationTable(@PathVariable int input){
         return this.mathService.multiplicationTable(input);
     }
 
+    /*
+
+    */
     @GetMapping(value = "table/{input}/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Response> multiplicationTableStream(@PathVariable int input) {
         return this.mathService.multiplicationTable(input);
