@@ -11,6 +11,6 @@ public interface ProductRepository extends ReactiveCrudRepository<Product, Integ
 
     Flux<Product> findByPriceBetween(int from, int to);
 
-    Flux<Product> findBy(Pageable pageable);
+    Flux<Product> findBy(Pageable pageable);  // pagination
 
 }
