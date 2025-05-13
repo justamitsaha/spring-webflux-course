@@ -33,7 +33,7 @@ public class CustomerController {
     @GetMapping("{id}")
     public Mono<CustomerDto> getCustomer(@PathVariable Integer id) {
         return this.customerService.getCustomerById(id)
-                                   .switchIfEmpty(ApplicationExceptions.customerNotFound(id));
+                                   .switchIfEmpty(ApplicationExceptions.customerNotFound(id));  // Error handling
     }
 
     @PostMapping
@@ -44,15 +44,16 @@ public class CustomerController {
 
     @PutMapping("{id}")
     public Mono<CustomerDto> updateCustomer(@PathVariable Integer id, @RequestBody Mono<CustomerDto> mono) {
-        return mono.transform(RequestValidator.validate())
+        return mono.transform(RequestValidator.validate())      //Validate customer
                    .as(validReq -> this.customerService.updateCustomer(id, validReq))
-                   .switchIfEmpty(ApplicationExceptions.customerNotFound(id));
+                   .switchIfEmpty(ApplicationExceptions.customerNotFound(id));  // Throw error if validation fails
     }
 
     @DeleteMapping("{id}")
     public Mono<Void> deleteCustomer(@PathVariable Integer id) {
         return this.customerService.deleteCustomerById(id)
                                    .filter(b -> b)
+                                    //Throw error if customer not found
                                    .switchIfEmpty(ApplicationExceptions.customerNotFound(id))
                                    .then();
     }
