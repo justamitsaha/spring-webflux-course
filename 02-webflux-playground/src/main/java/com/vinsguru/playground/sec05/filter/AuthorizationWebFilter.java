@@ -15,6 +15,7 @@ public class AuthorizationWebFilter implements WebFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+        //reading from attributes
         var category = exchange.getAttributeOrDefault("category", Category.STANDARD);
         return switch (category){
             case STANDARD -> standard(exchange, chain);

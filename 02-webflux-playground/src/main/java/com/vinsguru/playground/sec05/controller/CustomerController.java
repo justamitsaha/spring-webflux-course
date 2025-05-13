@@ -2,6 +2,7 @@ package com.vinsguru.playground.sec05.controller;
 
 import com.vinsguru.playground.sec05.dto.CustomerDto;
 import com.vinsguru.playground.sec05.exceptions.ApplicationExceptions;
+import com.vinsguru.playground.sec05.filter.Category;
 import com.vinsguru.playground.sec05.service.CustomerService;
 import com.vinsguru.playground.sec05.validator.RequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping
-    public Flux<CustomerDto> allCustomers() {
+    public Flux<CustomerDto> allCustomers(@RequestAttribute("category") Category category) {
         return this.customerService.getAllCustomers();
     }
 
