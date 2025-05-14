@@ -14,15 +14,16 @@ public class Lec02FluxTest extends AbstractWebClient {
     @Test
     public void streamingResponse() {
         this.client.get()
-                   .uri("/lec02/product/stream")
-                   .retrieve()
-                   .bodyToFlux(Product.class)
-                   .take(Duration.ofSeconds(3))
-                   .doOnNext(print())
-                   .then()
-                   .as(StepVerifier::create)
-                   .expectComplete()
-                   .verify();
+                .uri("/lec02/product/stream")
+                .retrieve()
+                .bodyToFlux(Product.class)
+                .take(Duration.ofSeconds(3))
+                .doOnNext(print())
+                .then()
+                //Step verifier is added as it will wait for the response to complete
+                .as(StepVerifier::create)
+                .expectComplete()
+                .verify();
     }
 
 }

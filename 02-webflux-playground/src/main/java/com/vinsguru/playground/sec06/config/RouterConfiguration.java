@@ -32,8 +32,30 @@ public class RouterConfiguration {
                               .build();
     }
 
+/*Multiple Router functions example
+    @Bean
+    public RouterFunction<ServerResponse> customerRoutes1() {
+        return RouterFunctions.route()
+                .POST("/customers", this.customerRequestHandler::saveCustomer)
+                .PUT("/customers/{id}", this.customerRequestHandler::updateCustomer)
+                .DELETE("/customers/{id}", this.customerRequestHandler::deleteCustomer)
+                .onError(CustomerNotFoundException.class, this.exceptionHandler::handleException)
+                .onError(InvalidInputException.class, this.exceptionHandler::handleException)
+                .build();
+    }
 
-/*    @Bean
+    @Bean
+    public RouterFunction<ServerResponse> customerRoutes2() {
+        return RouterFunctions.route()
+                .GET("/customers/paginated", this.customerRequestHandler::paginatedCustomers)
+                .GET("/customers/{id}", this.customerRequestHandler::getCustomer)
+                //Kept at end as it will satisfy other conditions
+                .GET("/customers", this.customerRequestHandler::allCustomers)
+                .build();
+    }
+*/
+
+    @Bean
     public RouterFunction<ServerResponse> customerRoutes1() {
         return RouterFunctions.route()
                 .path("customers", this::customerRoutes2) // Delegates to customerRoutes2
@@ -51,8 +73,7 @@ public class RouterConfiguration {
                 .GET("/{id}", this.customerRequestHandler::getCustomer)
                 .GET("", this.customerRequestHandler::allCustomers)
                 .build();
-    }*/
-
+    }
 
 }
 

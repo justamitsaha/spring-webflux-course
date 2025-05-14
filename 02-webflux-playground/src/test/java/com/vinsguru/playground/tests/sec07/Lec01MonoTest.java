@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.Duration;
+import java.util.Map;
 
 public class Lec01MonoTest extends AbstractWebClient {
 
@@ -13,27 +14,30 @@ public class Lec01MonoTest extends AbstractWebClient {
     @Test
     public void simpleGet() throws InterruptedException {
         this.client.get()
-                   .uri("/lec01/product/1")
-                   .retrieve()
-                   .bodyToMono(Product.class)
-                   .doOnNext(print())
-                   .subscribe();
+                .uri("/lec01/product/1")
+                .retrieve()
+                .bodyToMono(Product.class)
+                .doOnNext(print())
+                .subscribe();
 
-        Thread.sleep(Duration.ofSeconds(2));
+        //Thread.sleep(Duration.ofSeconds(2));
     }
+
+    Map map = Map.of("id", "1", "name", "Amit");
 
     @Test
     public void concurrentRequests() throws InterruptedException {
         for (int i = 1; i <= 100; i++) {
             this.client.get()
-                       .uri("/lec01/product/{id}", i)
-                       .retrieve()
-                       .bodyToMono(Product.class)
-                       .doOnNext(print())
-                       .subscribe();
+                    //.uri("/lec01/product/{id}", i)
+                    .uri("/lec01/product/{id}", map)
+                    .retrieve()
+                    .bodyToMono(Product.class)
+                    .doOnNext(print())
+                    .subscribe();
         }
 
-        Thread.sleep(Duration.ofSeconds(2));
+        //Thread.sleep(Duration.ofSeconds(2));
     }
 
 }
