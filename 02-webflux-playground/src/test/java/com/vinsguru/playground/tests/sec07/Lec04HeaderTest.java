@@ -28,7 +28,7 @@ public class Lec04HeaderTest extends AbstractWebClient {
     public void overrideHeader() {
         this.client.get()
                    .uri("/lec04/product/{id}", 1)
-                   .header("caller-id", "new-value")
+                   .header("caller-id", "new-value") //override header
                    .retrieve()
                    .bodyToMono(Product.class)
                    .doOnNext(print())
@@ -46,7 +46,7 @@ public class Lec04HeaderTest extends AbstractWebClient {
         );
         this.client.get()
                    .uri("/lec04/product/{id}", 1)
-                   .headers(h -> h.setAll(map))
+                   .headers(h -> h.setAll(map))     //setting header with Map
                    .retrieve()
                    .bodyToMono(Product.class)
                    .doOnNext(print())
