@@ -20,12 +20,13 @@ public class ProductService {
 
     public Mono<ProductDto> saveProduct(Mono<ProductDto> mono) {
         return mono.map(EntityDtoMapper::toEntity)
-                   .flatMap(this.repository::save)
-                   .map(EntityDtoMapper::toDto)
-                   .doOnNext(this.sink::tryEmitNext);
+                .flatMap(this.repository::save)
+                .map(EntityDtoMapper::toDto)
+                //send to sink
+                .doOnNext(this.sink::tryEmitNext);
     }
 
-    public Flux<ProductDto> productStream(){
+    public Flux<ProductDto> productStream() {
         return this.sink.asFlux();
     }
 
